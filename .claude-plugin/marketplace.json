@@ -1,0 +1,46 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "chris-buzz",
+  "owner": {
+    "name": "Christopher Buzaid",
+    "url": "https://github.com/Chris-Buzz"
+  },
+  "metadata": {
+    "description": "Claude Code skills by Christopher Buzaid: a whole-product design workflow, a blind multi-model review, and a bridge to your own ChatGPT."
+  },
+  "plugins": [
+    {
+      "name": "my-design",
+      "source": "./plugins/my-design",
+      "description": "Design a whole app or site: user psychology research, a design system drafted with you, ChatGPT concept art you pick from, a board of every page, then design and accessibility reviews.",
+      "version": "1.0.0",
+      "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+      "repository": "https://github.com/Chris-Buzz/claude-skills",
+      "license": "MIT",
+      "category": "design",
+      "keywords": ["design", "design-system", "ui", "accessibility"]
+    },
+    {
+      "name": "council",
+      "source": "./plugins/council",
+      "description": "A review with three kinds of reviewer: fresh Claude reviewers, Codex and Gemini read the same packet blind, and every finding is checked against the source before it counts.",
+      "version": "1.0.0",
+      "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+      "repository": "https://github.com/Chris-Buzz/claude-skills",
+      "license": "MIT",
+      "category": "development",
+      "keywords": ["code-review", "architecture", "multi-model", "codex", "gemini"]
+    },
+    {
+      "name": "chatgpt-bridge",
+      "source": "./plugins/chatgpt-bridge",
+      "description": "Use your own signed-in ChatGPT from Claude Code, in a visible Chrome window, for second opinions and concept art. Returns text and file paths, so a round trip costs a few hundred tokens.",
+      "version": "1.0.0",
+      "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+      "repository": "https://github.com/Chris-Buzz/claude-skills",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": ["chatgpt", "mcp", "images", "second-opinion"]
+    }
+  ]
+}

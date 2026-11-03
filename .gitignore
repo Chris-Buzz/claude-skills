@@ -1,0 +1,5 @@
+node_modules/
+# The ChatGPT bridge's signed-in browser profile and chat list live in ~/.chatgpt-bridge, never here.
+profile/
+state.json
+.DS_Store

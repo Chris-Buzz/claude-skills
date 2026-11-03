@@ -1,0 +1,12 @@
+# Paths that must never go to outside reviewers (OpenAI, Google), on top of the built-in checks for secrets,
+# keys, certificates and dependency folders.
+#
+# One pattern per line: a case-insensitive regular expression tested against each file's path, both relative to
+# the repo and absolute. Lines starting with # are comments. Add your client folders, confidential projects and
+# anything under regulated data handling.
+
+# Folders and files whose names say they are not for sharing.
+(^|[\\/])(confidential|internal[-_]only|do[-_]not[-_]share|nda)([\\/._-]|$)
+# Data exports, dumps and backups usually hold real people's data.
+\.(sql|dump|bak|sqlite|db)$
+(^|[\\/])(exports?|dumps?|backups?)([\\/]|$)

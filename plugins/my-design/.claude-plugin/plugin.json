@@ -1,0 +1,9 @@
+{
+  "name": "my-design",
+  "description": "Design a whole app or site: user psychology research, a design system drafted with you, ChatGPT concept art you pick from, a board of every page, then design and accessibility reviews.",
+  "version": "1.0.0",
+  "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+  "repository": "https://github.com/Chris-Buzz/claude-skills",
+  "license": "MIT",
+  "keywords": ["design", "design-system", "ui", "accessibility"]
+}

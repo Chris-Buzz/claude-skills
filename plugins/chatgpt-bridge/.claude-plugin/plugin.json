@@ -1,0 +1,9 @@
+{
+  "name": "chatgpt-bridge",
+  "description": "Use your own signed-in ChatGPT from Claude Code, in a visible Chrome window, for second opinions and concept art. Returns text and file paths, so a round trip costs a few hundred tokens.",
+  "version": "1.0.0",
+  "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+  "repository": "https://github.com/Chris-Buzz/claude-skills",
+  "license": "MIT",
+  "keywords": ["chatgpt", "mcp", "images", "second-opinion"]
+}

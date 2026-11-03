@@ -1,0 +1,9 @@
+{
+  "name": "council",
+  "description": "A review with three kinds of reviewer: fresh Claude reviewers, Codex and Gemini read the same packet blind, and every finding is checked against the source before it counts.",
+  "version": "1.0.0",
+  "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+  "repository": "https://github.com/Chris-Buzz/claude-skills",
+  "license": "MIT",
+  "keywords": ["code-review", "architecture", "multi-model", "codex", "gemini"]
+}
