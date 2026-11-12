@@ -33,10 +33,11 @@ ChatGPT; Claude in Chrome works too.
 
 ## What it costs your Claude
 
-The skill is user-invoked: it adds nothing to a session's context until you type `/make-pet`. The pet itself is
-driven by 8 command hooks in `~/.claude/settings.json` that write one small file per session and print nothing (their
-output goes to `/dev/null`), so it adds no tokens to any chat. Each hook run starts Node once, about a tenth of a
-second; the one that fires on every step runs in the background.
+The skill is user-invoked: Claude never starts it on its own, and its steps (about 2,500 tokens) load only when you
+type `/make-pet`. Until then, `claude plugin details make-pet@chris-buzz` estimates about 70 tokens a session for its
+name and description. The pet itself is driven by 8 command hooks in `~/.claude/settings.json` that write one small
+file per session and print nothing (their output goes to `/dev/null`), so they add no tokens to any chat. Each hook
+run starts Node once, about a fifth of a second on Windows; the one that fires on every step runs in the background.
 
 ## Needs
 
