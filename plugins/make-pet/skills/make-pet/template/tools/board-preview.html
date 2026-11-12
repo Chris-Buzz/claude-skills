@@ -1,0 +1,113 @@
+<!doctype html>
+<!--
+  Preview of __PET_NAME__'s board in an ordinary browser, with made-up sessions, so its layout can be
+  checked without opening __PET_NAME__'s real windows. Run `npx vite`, then open
+  http://localhost:1420/tools/board-preview.html (add ?scene=empty, ?scene=needs or ?scene=many,
+  and &open=<session id> to expand a row). The page stands in for Tauri's window and command
+  bridge; everything else is the real board code.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>__PET_NAME__'s desk (preview)</title>
+    <style>
+      body { margin: 0; background: #d9d9d9; display: grid; place-items: start center; padding: 24px; }
+      #frame { width: 356px; height: 509px; display: flex; flex-direction: column; background: #fff;
+        box-shadow: 0 8px 30px rgb(0 0 0 / 0.25); border-radius: 8px; overflow: hidden; }
+    </style>
+    <script>
+      const params = new URLSearchParams(location.search)
+      const now = Date.now()
+      const min = 60000
+      const GAME = 'C:\\Projects\\MyGame'
+      const WT = 'C:\\Projects\\MyGame-worktrees\\MyGame\\'
+      const session = (id, state, cwd, agoMin, startedMin, detail = null) => ({
+        id, state, at: now - agoMin * min, started: now - startedMin * min, cwd, transcript: 'mock:' + id, detail,
+      })
+      const scenes = {
+        empty: [],
+        needs: [
+          session('plan', 'needs-you', 'C:\\Projects\\Notes', 4, 90, 'AskUserQuestion'),
+          session('orch', 'working', GAME, 0, 300),
+          session('w1', 'working', WT + '16-1-login-form', 0, 120),
+          session('w2', 'done', WT + '18-4-search-bar', 3, 100),
+          session('w3', 'blocked', WT + '13-2-faster-build', 6, 200, 'rate_limit'),
+          session('pet', 'working', 'C:\\Projects\\__PET_SLUG__-pet', 0, 60),
+          session('old1', 'hello', 'C:\\Projects\\Site', 150, 400),
+          session('scratch', 'hello', 'C:\\Users\\you\\AppData\\Roaming\\Claude\\scratch-workspaces\\a\\b\\scratch-1', 40, 90),
+        ],
+        quiet: [
+          session('orch', 'hello', GAME, 20, 300),
+          session('old1', 'hello', 'C:\\Projects\\Site', 150, 400),
+        ],
+      }
+      scenes.many = [...scenes.needs]
+      const files = scenes[params.get('scene') ?? 'needs']
+      const stats = (id) => ({
+        title: { plan: 'Notes: capture screen', orch: 'MyGame orchestrator (takes over from STATE.md) with a very long title that must be cut off',
+          w1: '16.1 Fix the login form', w2: '18.4 Add a search bar', w3: '13.2 Make the build faster',
+          pet: '__PET_NAME__ desktop pet for Claude', old1: 'Plan the weekend', scratch: 'Review my Claude Code setup' }[id] ?? id,
+        model: 'claude-opus-5-5', branch: id === 'orch' ? 'main' : 'claude/' + id, firstAt: new Date(now - 190 * min).toISOString(),
+        lastAt: new Date(now - 1 * min).toISOString(), turns: 14, toolCalls: 604, outputTokens: 707000, contextTokens: 709000,
+        turnsToday: 6, outputToday: 120000,
+        lastPrompt: 'Make the board cleaner and keep it simple. Show me what needs me first and keep the order steady so I can click.',
+        lastReply: 'Done: the header now says what needs you, quiet sessions step back, and rows no longer swap places while you reach for one.',
+      })
+      const callbacks = new Map()
+      window.__TAURI_INTERNALS__ = {
+        metadata: { currentWindow: { label: 'board' }, currentWebview: { label: 'board', windowLabel: 'board' } },
+        transformCallback(fn) { const id = Math.random(); callbacks.set(id, fn); return id },
+        unregisterCallback() {},
+        convertFileSrc: (p) => p,
+        async invoke(cmd, args) {
+          switch (cmd) {
+            case 'read_sessions': return files
+            case 'session_stats': return stats(args.transcript.replace('mock:', ''))
+            case 'dictation_ready': return true
+            case 'plugin:event|listen': setTimeout(() => callbacks.get(args.handler)?.({ event: args.event, payload: true, id: 1 }), 50); return 1
+            case 'plugin:event|unlisten': return null
+            default: console.log('invoke', cmd, args); return null
+          }
+        },
+      }
+      window.addEventListener('DOMContentLoaded', () => {
+        const open = params.get('open')
+        if (open) setTimeout(() => document.querySelector(`[data-id="${open}"] .row-head`)?.click(), 400)
+      })
+    </script>
+  </head>
+  <body>
+    <div id="frame">
+      <header class="head">
+        <img id="portrait" class="portrait" src="/pet/faces/idle.png" alt="" />
+        <div>
+          <h1>__PET_NAME__'s desk</h1>
+          <p id="summary" class="summary" role="status">Looking around</p>
+        </div>
+      </header>
+      <main id="list"></main>
+      <p id="today" class="today" hidden></p>
+      <form id="chat" class="chat" autocomplete="off">
+        <label for="ask" class="visually-hidden">Quick chat</label>
+        <div class="field">
+          <input id="ask" name="ask" placeholder="Ask Claude something new" maxlength="5000" />
+          <span id="mic-time" class="mic-time" aria-live="polite"></span>
+          <button id="mic" type="button" class="mic" aria-label="Dictate" title="Dictate" hidden>
+            <svg class="mic-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none"
+              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="3" width="6" height="11" rx="3" />
+              <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" />
+            </svg>
+            <span class="stop-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+        <p class="hint">
+          <label for="folder">Opens Claude Code in</label>
+          <select id="folder" name="folder"></select>
+          <span>· Enter there sends it</span>
+        </p>
+      </form>
+    </div>
+    <script type="module" src="/src/board.ts"></script>
+  </body>
+</html>

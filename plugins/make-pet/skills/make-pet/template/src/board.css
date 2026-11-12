@@ -1,0 +1,547 @@
+/* __PET_NAME__'s board: a plain white card. Black text, grey for secondary text, orange only as
+   the dot on something that needs the user (and as the live square while the mic records).
+   __PET_NAME__'s faces carry the personality. */
+:root {
+  --ink: #000;
+  --muted: #666;
+  --line: #ebebeb;
+  --hover: #f5f5f5;
+  --paper: #fff;
+  --fur: #f2ece5; /* behind __PET_NAME__'s face, so every avatar is the same clean circle */
+  --accent: #ff6a1a;
+  --pad: 14px;
+  font-family: 'Geist Variable', system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--ink);
+  caret-color: var(--ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- header ---- */
+
+.head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: var(--pad);
+  border-bottom: 1px solid var(--line);
+}
+
+.portrait {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--fur);
+}
+
+h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* The first thing the board says: what needs the user. Plain grey when nothing does. */
+.summary {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin: 1px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.summary:has(.dot) {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* ---- session list ---- */
+
+#list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #d6d6d6 transparent;
+}
+
+.group + .group {
+  margin-top: 6px;
+}
+
+.group h2 {
+  margin: 12px var(--pad) 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.row-head {
+  position: relative;
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  align-items: center;
+  padding: 7px var(--pad);
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row-head:hover {
+  background: var(--hover);
+}
+
+.row-head:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+/* A small chevron says the row opens; it turns over while open. */
+.row-head::after {
+  content: '';
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin: -3px 2px 0 0;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 150ms ease-out;
+}
+
+.row-head[aria-expanded='true']::after {
+  margin-top: 3px;
+  transform: rotate(-135deg);
+}
+
+/* Workers sit under their orchestrator, joined by a thin rule at the avatar's centre line. */
+.row.worker .row-head {
+  padding-left: calc(var(--pad) + 26px);
+}
+
+.row.worker .row-head::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--pad) + 14px);
+  width: 1px;
+  background: var(--line);
+}
+
+.face {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--fur);
+  overflow: hidden;
+}
+
+.face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.row-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.title {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-weight: 500;
+}
+
+.title .name {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tag {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.status {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Needs you and blocked both wait on the user, so their status reads in black, not grey. */
+.row.attention .status {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* A session with nothing going on steps back, so the live ones stand out. */
+.row.quiet .name {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.row.quiet .face img {
+  opacity: 0.5;
+}
+
+.when {
+  flex: none;
+  align-self: flex-start;
+  margin-top: 1px;
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- expanded session ---- */
+
+.details {
+  margin: 2px var(--pad) 10px calc(var(--pad) + 38px);
+}
+
+.row.worker .details {
+  margin-left: calc(var(--pad) + 64px);
+}
+
+.said {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 8px;
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.said .who {
+  padding-top: 1px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.said .text {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.numbers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 12px;
+  margin: 10px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.fact {
+  min-width: 0;
+}
+
+.fact.wide {
+  grid-column: 1 / -1;
+}
+
+.numbers dt {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.numbers dd {
+  margin: 1px 0 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.action {
+  height: 28px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.action:hover {
+  border-color: var(--ink);
+}
+
+.action:active {
+  background: var(--hover);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+/* One clear next step per session: Show Claude. */
+.action.primary {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.action.primary:hover {
+  background: #262626;
+}
+
+/* ---- nothing running ---- */
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 24px;
+  text-align: center;
+}
+
+.empty img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--fur);
+}
+
+.empty-title {
+  margin: 12px 0 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.empty-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ---- today's totals ---- */
+
+.today {
+  margin: 0;
+  padding: 6px var(--pad);
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- quick chat ---- */
+
+.chat {
+  padding: 12px var(--pad) var(--pad);
+  border-top: 1px solid var(--line);
+}
+
+.field {
+  position: relative;
+}
+
+.chat input {
+  width: 100%;
+  height: 36px;
+  padding: 0 76px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  font: inherit;
+  outline: none;
+}
+
+.chat input::placeholder {
+  color: #767676;
+}
+
+.chat input:focus {
+  border-color: var(--ink);
+}
+
+/* The mic sits inside the field's right edge, like a chat app's. While it records it turns
+   into an orange stop square with the seconds beside it; orange means "live" here, as it
+   means "needs you" on the rows. */
+.mic {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.mic:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+.mic:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.mic .stop-icon {
+  display: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+.mic[data-state='recording'] .mic-icon,
+.mic[data-state='working'] .mic-icon {
+  display: none;
+}
+
+.mic[data-state='recording'] .stop-icon {
+  display: block;
+}
+
+.mic[data-state='working'] {
+  cursor: progress;
+}
+
+.mic[data-state='working']::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid var(--line);
+  border-top-color: var(--ink);
+  border-radius: 50%;
+  animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mic-time {
+  position: absolute;
+  top: 0;
+  right: 38px;
+  line-height: 36px;
+  color: var(--muted);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.hint {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.hint select {
+  min-width: 0;
+  max-width: 120px;
+  padding: 1px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.hint select:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row-head::after {
+    transition: none;
+  }
+
+  .mic[data-state='working']::after {
+    animation: none;
+  }
+}

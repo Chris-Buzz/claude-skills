@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>__PET_NAME__'s desk</title>
+  </head>
+  <body>
+    <header class="head">
+      <img id="portrait" class="portrait" src="/pet/faces/idle.png" alt="" />
+      <div>
+        <h1>__PET_NAME__'s desk</h1>
+        <p id="summary" class="summary" role="status">Looking around</p>
+      </div>
+    </header>
+    <main id="list"></main>
+    <p id="today" class="today" hidden></p>
+    <form id="chat" class="chat" autocomplete="off">
+      <label for="ask" class="visually-hidden">Quick chat</label>
+      <div class="field">
+        <input id="ask" name="ask" placeholder="Ask Claude something new" maxlength="5000" />
+        <span id="mic-time" class="mic-time" aria-live="polite"></span>
+        <button id="mic" type="button" class="mic" aria-label="Dictate" title="Dictate" hidden>
+          <svg class="mic-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none"
+            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="3" width="6" height="11" rx="3" />
+            <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21" />
+          </svg>
+          <span class="stop-icon" aria-hidden="true"></span>
+        </button>
+      </div>
+      <p class="hint">
+        <label for="folder">Opens Claude Code in</label>
+        <select id="folder" name="folder"></select>
+        <span>· Enter there sends it</span>
+      </p>
+    </form>
+    <script type="module" src="/src/board.ts"></script>
+  </body>
+</html>

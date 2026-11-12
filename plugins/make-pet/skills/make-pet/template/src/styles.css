@@ -1,0 +1,69 @@
+/* __PET_NAME__'s window is see-through: only the sprite and, when there is news, the pill show. */
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --accent: #ff6a1a; /* the same orange as the in-app __PET_NAME__ mod */
+  font-family: 'Geist Variable', system-ui, sans-serif;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#pet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#pet {
+  display: block;
+  cursor: grab;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  margin-top: 4px;
+  padding: 0 10px;
+  border-radius: 11px;
+  background: var(--ink);
+  /* A hairline so the black pill still reads over dark windows. */
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.22);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+}
+
+.pill.shown {
+  opacity: 1;
+}
+
+.pill .dot {
+  display: none;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.pill.needs .dot {
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill {
+    transition: none;
+  }
+}

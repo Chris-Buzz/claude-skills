@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Merged by Tauri into the Mac app's Info.plist. macOS shows this text when it first asks
+     whether the app may use the microphone (for the mic in __PET_NAME__'s board). -->
+<plist version="1.0">
+<dict>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>__PET_NAME__ listens only while the mic in Quick Chat is recording, and the words are transcribed on this Mac.</string>
+</dict>
+</plist>

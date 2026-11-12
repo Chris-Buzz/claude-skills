@@ -6,7 +6,7 @@
     "url": "https://github.com/Chris-Buzz"
   },
   "metadata": {
-    "description": "Claude Code skills by Christopher Buzaid: a whole-product design workflow, a blind multi-model review, and a bridge to your own ChatGPT."
+    "description": "Claude Code skills by Christopher Buzaid: a whole-product design workflow, a blind multi-model review, a bridge to your own ChatGPT, and a desktop pet that follows Claude."
   },
   "plugins": [
     {
@@ -41,6 +41,17 @@
       "license": "MIT",
       "category": "productivity",
       "keywords": ["chatgpt", "mcp", "images", "second-opinion"]
+    },
+    {
+      "name": "make-pet",
+      "source": "./plugins/make-pet",
+      "description": "Make a desktop pet of your own animal or character for Claude Code on Windows or macOS: ChatGPT draws the sprite sheets from your photos, the pet shows when Claude is working, needs you, is done or asleep, and opens a board of every session.",
+      "version": "1.0.0",
+      "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+      "repository": "https://github.com/Chris-Buzz/claude-skills",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": ["pet", "desktop", "tauri", "hooks", "chatgpt", "sprites"]
     }
   ]
 }

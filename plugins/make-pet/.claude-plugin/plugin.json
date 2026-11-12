@@ -1,0 +1,9 @@
+{
+  "name": "make-pet",
+  "description": "Make a desktop pet of your own animal or character for Claude Code on Windows or macOS: ChatGPT draws the sprite sheets from your photos, the pet shows when Claude is working, needs you, is done or asleep, and opens a board of every session.",
+  "version": "1.0.0",
+  "author": { "name": "Christopher Buzaid", "url": "https://github.com/Chris-Buzz" },
+  "repository": "https://github.com/Chris-Buzz/claude-skills",
+  "license": "MIT",
+  "keywords": ["pet", "desktop", "tauri", "hooks", "chatgpt", "sprites"]
+}

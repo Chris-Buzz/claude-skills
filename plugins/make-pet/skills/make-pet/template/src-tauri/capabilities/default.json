@@ -1,0 +1,16 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "What __PET_NAME__'s pages may ask the app to do",
+  "windows": ["pet", "board"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-set-size",
+    "core:window:allow-set-position",
+    "core:window:allow-hide",
+    "core:window:allow-outer-position",
+    "core:menu:default",
+    "autostart:default"
+  ]
+}
